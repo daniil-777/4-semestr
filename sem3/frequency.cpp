@@ -21,6 +21,7 @@ map<string, int> out;
 
 string strToGood(string &s) {
 	string ans;
+	// FIXIT: есть ф-я isalpha ... не нужен тут велосипед
 	for (int i = 0; i < s.size(); ++i) {
 		if (s[i] >= 'A' && s[i] <= 'Z') {
 			ans.push_back(s[i] - 'A' + 'a');
@@ -38,9 +39,13 @@ string strToGood(string &s) {
 	return ans;
 }
 
+// название ф-и должно соответствовать её содержанию:
+// нужно либо назвать по-другому, либо разбить на две ... т.к. к выводу только последний цикл for относится
 void outAnswer(int n) {
 	vector <pair <int, string> > 
 		ans;
+	
+	// вместо длинной строки map <string, int>::iterator лучше написать auto
 	for (map <string, int>::iterator i = out.begin(); i != out.end(); i++) {
 		ans.push_back(make_pair(-(*i).second, (*i).first));
 	}
@@ -62,6 +67,8 @@ int main()
 	
 	string s;
 	while (cin >> s){
+		// дважды вызываете относительно дорогую ф-ю strToGood(s). лучше сохранить результат в отдельную переменную.
+		// вместо strToGood(s).size() >= 1 можно написать string str = strToGood(s); ...  !str.empty() 
 		if (strToGood(s).size() >= 1) {
 			out[strToGood(s)]++;
 		}
