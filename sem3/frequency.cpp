@@ -21,14 +21,8 @@ map<string, int> out;
 
 string strToGood(string &s) {
 	string ans;
-	// FIXIT: есть ф-я isalpha ... не нужен тут велосипед
 	for (int i = 0; i < s.size(); ++i) {
-		if (s[i] >= 'A' && s[i] <= 'Z') {
-			ans.push_back(s[i] - 'A' + 'a');
-		}
-		else {
-			ans.push_back(s[i]);
-		}
+		ans.push_back(tolower(s[i]));
 	}
 
 	char endStr = ans[ans.size() - 1];
@@ -39,19 +33,18 @@ string strToGood(string &s) {
 	return ans;
 }
 
-// название ф-и должно соответствовать её содержанию:
-// нужно либо назвать по-другому, либо разбить на две ... т.к. к выводу только последний цикл for относится
-void outAnswer(int n) {
-	vector <pair <int, string> > 
+vector <pair <int, string> > mapInVector(int n) {
+	vector <pair <int, string> >
 		ans;
-	
-	// вместо длинной строки map <string, int>::iterator лучше написать auto
-	for (map <string, int>::iterator i = out.begin(); i != out.end(); i++) {
+	for (auto i = out.begin(); i != out.end(); i++) {
 		ans.push_back(make_pair(-(*i).second, (*i).first));
 	}
 
 	sort(ans.begin(), ans.end());
+	return ans;
+}
 
+void outAnswer(int n, vector <pair <int, string> > ans) {
 	for (int i = 0; i < min(n, (int)ans.size()); i++) {
 		cout << ans[i].second << " finding on the text a mount " << -ans[i].first << endl;
 	}
@@ -67,13 +60,12 @@ int main()
 	
 	string s;
 	while (cin >> s){
-		// дважды вызываете относительно дорогую ф-ю strToGood(s). лучше сохранить результат в отдельную переменную.
-		// вместо strToGood(s).size() >= 1 можно написать string str = strToGood(s); ...  !str.empty() 
-		if (strToGood(s).size() >= 1) {
-			out[strToGood(s)]++;
+		string str = strToGood(s);
+		if (!str.empty()) {
+			out[str]++;
 		}
 	}
 
-	outAnswer(n);
+	outAnswer(n, mapInVector(n));
 	return 0;
 }
