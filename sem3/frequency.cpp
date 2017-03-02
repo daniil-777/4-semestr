@@ -27,6 +27,7 @@ string strToGood(string &s) {
 
 	char endStr = ans[ans.size() - 1];
 
+	/* fixit: вот вместо этого магического if'а и нужно написать !isalpha */
 	if (endStr != 47 && (endStr < 'a' || endStr > 'z')) {
 		ans.pop_back();
 	}
